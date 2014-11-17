@@ -41,7 +41,8 @@ class NewsTableViewController: UITableViewController {
         let request = NSURLRequest(URL: loadURL!)
         let loadDataSourceQueue = NSOperationQueue()
         
-        NSURLConnection.sendAsynchronousRequest(request, queue: loadDataSourceQueue, completionHandler: { response, data, error in
+        NSURLConnection.sendAsynchronousRequest(request, queue: loadDataSourceQueue) {
+            response, data, error in
             if error != nil  {
                 NSLog("error: %@", error)
                 dispatch_async(dispatch_get_main_queue()) {
@@ -53,12 +54,9 @@ class NewsTableViewController: UITableViewController {
                 
                 var currentNewsDataSource = NSMutableArray()
                 for news: AnyObject in newsDataSource {
-                    let newsItem = XHNewsItem()
-                    newsItem.newsTitle = news["title"] as NSString
-                    newsItem.newsThumb = news["thumb"] as NSString
-                    newsItem.newsID = news["id"] as NSString
+                    let newsItem = NewsItem(newsTitle: news["title"] as String, newsThumbUrl: news["thumb"] as String, newsID: news["id"] as String)
                     currentNewsDataSource.addObject(newsItem)
-                    NSLog("new item is %@", newsItem.newsTitle)
+                    NSLog("got new item title \(newsItem.title), thumb \(newsItem.thumbUrl)")
                 }
                 
                 dispatch_async(dispatch_get_main_queue()) {
@@ -67,7 +65,7 @@ class NewsTableViewController: UITableViewController {
                     self.refreshControl?.endRefreshing()
                 }
             }
-        })
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -93,38 +91,27 @@ class NewsTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as UITableViewCell
 
         // Configure the cell...
-        let newsItem = newsFeed[indexPath.row] as XHNewsItem
-        cell.textLabel.text = newsItem.newsTitle
-        cell.imageView.image = UIImage(named: "cell_photo_default_small")
+        let newsItem = newsFeed[indexPath.row] as NewsItem
+        cell.textLabel.text = newsItem.title
         cell.imageView.contentMode = UIViewContentMode.ScaleAspectFit
-        
-        let request = NSURLRequest(URL: NSURL(string: newsItem.newsThumb)!)
-        NSURLConnection.sendAsynchronousRequest(request, queue: thumbQueue) {
-            response, data, error in
-            if error != nil {
-                NSLog("Error is %@", error)
-            } else {
-                let image = UIImage.init(data: data)
-                dispatch_async(dispatch_get_main_queue()) {
-                    cell.imageView.image = image
-                }
+        cell.textLabel.lineBreakMode = .ByWordWrapping
+        cell.textLabel.numberOfLines = 0 // why this works?
+        if let image = newsItem.thumb {
+            cell.imageView.image = image
+        } else {
+            newsItem.fetchThumb(thumbQueue: thumbQueue!) {
+                image in
+                cell.imageView.image = image
+                self.tableView?.reloadData()
             }
         }
-
+        
         return cell
     }
 
 
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 80
-    }
-    
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let row = indexPath.row as Int
-        let data = newsFeed[row] as XHNewsItem
-        let webview = WebViewController()
-        webview.detailID = data.newsID
-        navigationController?.pushViewController(webview, animated: true)
     }
     
     /*
@@ -171,5 +158,14 @@ class NewsTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    // MARK: - Delegation
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let row = indexPath.row as Int
+        let data = newsFeed[row] as NewsItem
+        let webview = WebViewController()
+        webview.detailID = data.id!
+        navigationController?.pushViewController(webview, animated: true)
+    }
 
 }

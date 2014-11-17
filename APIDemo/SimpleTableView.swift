@@ -10,55 +10,24 @@ import UIKit
 
 class SimpleTableView: UITableViewController {
     var fruits = ["Go back", "Apple", "Pear", "Cherry", "Peach", "Orange"]
-    var leftButton: UIButton?
-    var rightButton: UIBarButtonItem?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         initView()
-        setupLeftButton()
         setupRightButton()
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+         self.navigationItem.leftBarButtonItem = self.editButtonItem()
     }
 
     func initView() {
         tableView!.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
     }
     
-    func setupLeftButton() {
-        leftButton = UIButton.buttonWithType(UIButtonType.Custom) as? UIButton
-        leftButton!.frame = CGRectMake(0, 0, 50, 40)
-        leftButton?.setTitleColor(UIColor.redColor(), forState: UIControlState.Normal)
-        leftButton?.setTitle("Edit", forState: UIControlState.Normal)
-        leftButton!.tag = 100
-        leftButton!.userInteractionEnabled = true
-        leftButton?.addTarget(self, action: "leftButtonClicked", forControlEvents: UIControlEvents.TouchUpInside)
-        
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftButton!)
-    }
-    
-    func leftButtonClicked() {
-        NSLog("Left bar button")
-        if leftButton!.tag == 100 {
-            tableView?.setEditing(true, animated: true)
-            leftButton?.tag = 200
-            leftButton?.setTitle("Done", forState: UIControlState.Normal)
-            rightButton!.enabled = false
-        } else {
-            rightButton!.enabled = true
-            tableView?.setEditing(false, animated: true)
-            leftButton!.tag = 100
-            leftButton?.setTitle("Edit", forState: UIControlState.Normal)
-        }
-    }
-    
     func setupRightButton() {
-        rightButton = UIBarButtonItem(title: "Add", style: UIBarButtonItemStyle.Plain, target: self, action: "rightButtonClicked")
-        navigationItem.rightBarButtonItem = rightButton
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: UIBarButtonItemStyle.Plain, target: self, action: "rightButtonClicked")
     }
     
     func rightButtonClicked() {
@@ -100,7 +69,7 @@ class SimpleTableView: UITableViewController {
     // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         // Return NO if you do not want the specified item to be editable.
-        return true
+        return indexPath.row != 0
     }
 
     // Override to support editing the table view.
@@ -125,12 +94,14 @@ class SimpleTableView: UITableViewController {
     // MARK: - Delegation
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.row == 0 {
+            // let's go back to where we were from
             navigationController?.popViewControllerAnimated(true)
             return
         }
+        
         let alert = UIAlertView()
         alert.title = "Tip"
-        alert.message = "What you choose is \(fruits[indexPath.row])"
+        alert.message = "What you order is \(fruits[indexPath.row]), will be served shortly."
         alert.addButtonWithTitle("OKay")
         alert.show()
     }

@@ -9,7 +9,7 @@
 import UIKit
 
 class TableViewExamples: UITableViewController {
-    let demos = ["Simple usage of UITableView", "Simple news app with UITableview"]
+    let demos = ["Simple UITableView", "Simple news app"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,13 +49,11 @@ class TableViewExamples: UITableViewController {
         return cell
     }
 
-    /*
     // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         // Return NO if you do not want the specified item to be editable.
-        return true
+        return false
     }
-    */
 
     /*
     // Override to support editing the table view.
