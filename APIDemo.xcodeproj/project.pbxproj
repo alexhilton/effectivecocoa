@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6F3F62E01A260F3100C8E552 /* CollectionViewExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3F62DF1A260F3100C8E552 /* CollectionViewExample.swift */; };
 		6FBCA3311A1642DE00130314 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FBCA3301A1642DE00130314 /* AppDelegate.swift */; };
 		6FBCA3341A1642DE00130314 /* APIDemo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6FBCA3321A1642DE00130314 /* APIDemo.xcdatamodeld */; };
 		6FBCA3391A1642DE00130314 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6FBCA3371A1642DE00130314 /* Main.storyboard */; };
@@ -32,6 +33,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6F3F62DF1A260F3100C8E552 /* CollectionViewExample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewExample.swift; sourceTree = "<group>"; };
 		6FBCA32B1A1642DE00130314 /* APIDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = APIDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6FBCA32F1A1642DE00130314 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6FBCA3301A1642DE00130314 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -92,6 +94,7 @@
 				6FC88B001A1A321900B7E375 /* NewsItem.swift */,
 				6FBCA3301A1642DE00130314 /* AppDelegate.swift */,
 				6FBF97D21A18A3320093C997 /* CategoryViewController.swift */,
+				6F3F62DF1A260F3100C8E552 /* CollectionViewExample.swift */,
 				6FBCA3551A1656EA00130314 /* NewsTableViewController.swift */,
 				6FBCA3531A16431A00130314 /* SimpleTableView.swift */,
 				6FBF97D01A189ABD0093C997 /* TableViewExamples.swift */,
@@ -232,6 +235,7 @@
 			files = (
 				6FBCA3541A16431A00130314 /* SimpleTableView.swift in Sources */,
 				6FBCA3311A1642DE00130314 /* AppDelegate.swift in Sources */,
+				6F3F62E01A260F3100C8E552 /* CollectionViewExample.swift in Sources */,
 				6FBCA3561A1656EA00130314 /* NewsTableViewController.swift in Sources */,
 				6FBF97D11A189ABD0093C997 /* TableViewExamples.swift in Sources */,
 				6FBCA35A1A1795FE00130314 /* WebViewController.swift in Sources */,

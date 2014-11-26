@@ -10,7 +10,7 @@ import UIKit
 
 class CategoryViewController: UITableViewController {
 
-    let categories = ["UITableView"]
+    let categories = ["UITableView", "UICollectionView"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -90,6 +90,12 @@ class CategoryViewController: UITableViewController {
         var view: UIViewController?
         if row == 0 {
             view = TableViewExamples()
+        } else {
+            var layout = UICollectionViewFlowLayout()
+            layout.scrollDirection = UICollectionViewScrollDirection.Vertical
+            layout.minimumLineSpacing = 10
+            layout.minimumInteritemSpacing = 5
+            view = CollectionViewExample(collectionViewLayout: layout)
         }
         view!.title = categories[row]
         navigationController?.pushViewController(view!, animated: true)
